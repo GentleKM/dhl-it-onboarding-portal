@@ -3,6 +3,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* DHL 브랜드 색상 */
+  --dhl-yellow: #FFCC00;
+  --dhl-red: #D40511;
+  --dhl-gray: #53565A;
 }
 
 @theme inline {
@@ -10,13 +15,24 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* DHL 색상 테마 */
+  --color-dhl-yellow: var(--dhl-yellow);
+  --color-dhl-red: var(--dhl-red);
+  --color-dhl-gray: var(--dhl-gray);
+
+  /* Shadcn 호환 변수 */
+  --color-primary: var(--dhl-red);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--dhl-yellow);
+  --color-secondary-foreground: #171717;
+  --color-destructive: #ef4444;
+  --color-border: #e5e7eb;
+  --color-input: #e5e7eb;
+  --color-ring: var(--dhl-red);
+  --color-muted: #f3f4f6;
+  --color-muted-foreground: #6b7280;
+  --radius: 0.5rem;
 }
 
 body {
