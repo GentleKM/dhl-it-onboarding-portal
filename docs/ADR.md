@@ -21,6 +21,16 @@
 **이유:** 특정 국가/품목 정보는 제공하지 않고 용어 설명만 제공하므로, 외부 API 불필요.
 **트레이드오프:** 내용 추가 시 파일 직접 편집 필요. 향후 CMS 연동 고려 가능.
 
+## ADR-005: Gemini Free Tier 선택
+
+**날짜:** 2026-05-25
+**결정:** Anthropic Claude 대신 Google Gemini 1.5 Flash (Free Tier) 사용
+**이유:**
+- 무료 API 할당량으로 프로토타입 단계 비용 절감
+- Vercel AI SDK의 `@ai-sdk/google` 패키지로 기존 `generateObject` 인터페이스 그대로 유지
+- Gemini 2.0 Flash Exp는 구조화된 출력(Zod 스키마) 완벽 지원
+**트레이드오프:** Claude 대비 한국어 추론 품질 차이 가능. 필요 시 Claude로 복귀 용이 (Vercel AI SDK 추상화).
+
 ## ADR-004: Tailwind v4 사용
 
 **날짜:** 2026-05-23

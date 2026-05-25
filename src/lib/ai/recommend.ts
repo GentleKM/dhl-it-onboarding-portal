@@ -1,5 +1,5 @@
 import { generateObject } from "ai";
-import { anthropic } from "@ai-sdk/anthropic";
+import { google } from "@ai-sdk/google";
 import { z } from "zod";
 import type { SessionInput, RecommendResponse } from "@/types";
 
@@ -39,7 +39,7 @@ export async function getRecommendation(input: SessionInput): Promise<RecommendR
   `;
 
   const { object } = await generateObject({
-    model: anthropic("claude-sonnet-4-6"),
+    model: google("gemini-2.5-flash"),
     schema: recommendSchema,
     system: SYSTEM_PROMPT,
     prompt: userMessage,

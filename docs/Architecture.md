@@ -8,7 +8,7 @@
 | 언어 | TypeScript |
 | UI | Shadcn.ui + Tailwind CSS v4 |
 | DB | Supabase (PostgreSQL) |
-| AI | Vercel AI SDK + Claude (claude-sonnet-4-6) |
+| AI | Vercel AI SDK + Gemini 2.5 Pro (Free Tier) |
 | 이메일 | Resend |
 | 배포 | Vercel |
 
@@ -39,7 +39,7 @@ src/
 ## 데이터 흐름
 
 ```
-사용자 입력 → /api/recommend → Claude AI → 결과 생성
+사용자 입력 → /api/recommend → Gemini AI → 결과 생성
                                           ↓
                               Supabase에 세션 저장 (6자리 key 발급)
                                           ↓

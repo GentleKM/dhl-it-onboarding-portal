@@ -15,6 +15,7 @@ Claude Code 진입점. 상세 내용은 아래 문서 참조.
 - [보안](rules/security.md)
 - [테스팅](rules/testing.md)
 - [AI 에이전트 정책](rules/ai-agent-policy.md)
+- [Git 커밋 규칙](rules/git.md)
 
 ## 핵심 원칙
 

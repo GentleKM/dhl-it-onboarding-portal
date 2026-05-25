@@ -14,7 +14,7 @@
 
 ## 6자리 Key 보안
 
-- Key 조회 API에 Rate Limiting 적용 예정 (Vercel Edge Config 또는 Upstash Redis)
+- Key 조회 API에 Rate Limiting 적용 예정 (Vercel Edge Config 또는 Upstash Redis) — Phase 5 구현
 - 존재하지 않는 Key 조회 시 동일한 에러 응답 반환 (열거 공격 방지)
 
 ## AI 관련

@@ -15,10 +15,17 @@ Codex 역할: 기획자 & 검토자. 코드 작성은 Claude가 담당.
 - [ADR](docs/ADR.md)
 - [API](docs/API.md)
 
+## 규칙 목차
+
+- [AI 에이전트 정책](rules/ai-agent-policy.md) — 역할 분담, 작업 순서, 보고 방식
+- [Git 커밋 규칙](rules/git.md) — 커밋 단위, 브랜치 전략, Codex 검토 시점
+- [보안](rules/security.md) — 환경변수, 입력 검증, Key 보안
+- [코딩 컨벤션](rules/coding-convention.md) — 네이밍, 타입, 파일 구조
+
 ## Codex 검토 체크리스트
 
 각 Phase 완료 후:
 1. 기능이 PRD 요구사항과 일치하는가?
 2. 보안 취약점이 없는가? (SQL injection, XSS, key 열거 공격 등)
-3. DHL 브랜드 가이드라인을 준수하는가?
-4. AI 추천 결과가 일관적이고 정확한가?
+3. 핵심 로직 테스트가 작성되어 있고 `npm test` 전체 통과하는가?
+4. 코딩 컨벤션([rules/coding-convention.md](rules/coding-convention.md))을 준수하는가?
