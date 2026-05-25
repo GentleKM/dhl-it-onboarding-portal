@@ -1,6 +1,6 @@
 {
-  "currentPhase": 4,
-  "completedPhases": [1, 2, 3, 4],
+  "currentPhase": 5,
+  "completedPhases": [1, 2, 3, 4, 5],
   "lastUpdated": "2026-05-25",
   "phases": {
     "1": {
@@ -51,7 +51,18 @@
     },
     "5": {
       "title": "Rate Limiting + 보안 강화",
-      "status": "pending"
+      "status": "completed",
+      "completedAt": "2026-05-25",
+      "summary": "Upstash Redis 분산 Rate Limiting 적용(/api/recommend 10req/60s, /api/email 5req/60s), 보안 헤더 추가(next.config.ts), 메타데이터 수정, Route 단위 테스트 추가",
+      "files": [
+        "src/lib/rate-limit.ts",
+        "src/app/api/recommend/route.ts",
+        "src/app/api/recommend/route.test.ts",
+        "src/app/api/email/route.ts",
+        "next.config.ts",
+        "src/app/layout.tsx",
+        ".env.local.example"
+      ]
     }
   }
 }

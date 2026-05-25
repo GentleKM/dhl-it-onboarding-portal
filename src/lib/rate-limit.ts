@@ -1,49 +1,28 @@
 /**
- * 인메모리 Rate Limiter
+ * Upstash Redis 기반 분산 Rate Limiter
  *
- * 서버리스(Vercel) 환경에서는 인스턴스가 여러 개 존재할 수 있어
- * 완전한 분산 제한은 불가하지만, 단일 인스턴스 내 기본 보호는 제공.
- * Phase 5에서 Redis 기반으로 교체 예정.
+ * Vercel 다중 인스턴스 환경에서도 정확하게 동작하는 슬라이딩 윈도우 방식.
+ * 환경변수: UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN
  */
 
-interface RateLimitEntry {
-  count: number;
-  resetAt: number;
-}
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
-const store = new Map<string, RateLimitEntry>();
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+});
 
-export interface RateLimitOptions {
-  /** 제한 기간 (밀리초) */
-  windowMs: number;
-  /** 기간 내 최대 요청 수 */
-  maxRequests: number;
-}
+/** AI 추천 API: 60초당 최대 10회 */
+export const recommendRatelimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(10, "60 s"),
+  prefix: "rl:recommend",
+});
 
-/**
- * 주어진 식별자(IP 등)에 대해 Rate Limit을 확인한다.
- * @returns allowed: true면 허용, false면 차단
- */
-export function checkRateLimit(
-  identifier: string,
-  options: RateLimitOptions
-): { allowed: boolean; remaining: number; resetAt: number } {
-  const now = Date.now();
-  const { windowMs, maxRequests } = options;
-
-  const entry = store.get(identifier);
-
-  // 첫 요청이거나 윈도우가 만료된 경우 초기화
-  if (!entry || now > entry.resetAt) {
-    const resetAt = now + windowMs;
-    store.set(identifier, { count: 1, resetAt });
-    return { allowed: true, remaining: maxRequests - 1, resetAt };
-  }
-
-  if (entry.count >= maxRequests) {
-    return { allowed: false, remaining: 0, resetAt: entry.resetAt };
-  }
-
-  entry.count++;
-  return { allowed: true, remaining: maxRequests - entry.count, resetAt: entry.resetAt };
-}
+/** 이메일 발송 API: 60초당 최대 5회 (열거 공격 방지) */
+export const emailRatelimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(5, "60 s"),
+  prefix: "rl:email",
+});

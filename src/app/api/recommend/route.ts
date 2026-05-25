@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getRecommendation } from "@/lib/ai/recommend";
 import { createClient } from "@/lib/supabase/server";
+import { recommendRatelimit } from "@/lib/rate-limit";
 
 // 서버 사이드 입력 검증 스키마
 const sessionInputSchema = z.object({
@@ -14,6 +15,25 @@ const sessionInputSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  // 0. IP 기반 Rate Limit 확인 (Gemini AI 비용 남용 방지: 60초당 10회)
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const { success, remaining, reset } = await recommendRatelimit.limit(ip);
+
+  if (!success) {
+    const retryAfterSec = Math.ceil((reset - Date.now()) / 1000);
+    return NextResponse.json(
+      { error: `요청이 너무 많습니다. ${retryAfterSec}초 후 다시 시도해주세요.` },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(retryAfterSec),
+          "X-RateLimit-Remaining": "0",
+        },
+      }
+    );
+  }
+
   // 1. 요청 파싱
   let body: unknown;
   try {
@@ -86,5 +106,8 @@ export async function POST(req: NextRequest) {
   }
 
   // 6. 6자리 키 반환
-  return NextResponse.json({ key: sessionKey });
+  return NextResponse.json(
+    { key: sessionKey },
+    { headers: { "X-RateLimit-Remaining": String(remaining) } }
+  );
 }
