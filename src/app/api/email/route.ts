@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { sendResultEmail } from "@/lib/email/send";
+import { checkRateLimit } from "@/lib/rate-limit";
 import type { SessionResult } from "@/types";
 
 // 요청 바디 검증 스키마
@@ -10,7 +11,29 @@ const emailRequestSchema = z.object({
   key: z.string().length(6, "6자리 코드를 입력해주세요"),
 });
 
+// 이메일 발송 Rate Limit: 1분 내 IP당 5회 (key 열거 공격 방지)
+const RATE_LIMIT_OPTIONS = { windowMs: 60_000, maxRequests: 5 };
+
 export async function POST(req: NextRequest) {
+  // 0. IP 기반 Rate Limit 확인
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const { allowed, remaining, resetAt } = checkRateLimit(ip, RATE_LIMIT_OPTIONS);
+
+  if (!allowed) {
+    const retryAfterSec = Math.ceil((resetAt - Date.now()) / 1000);
+    return NextResponse.json(
+      { error: `요청이 너무 많습니다. ${retryAfterSec}초 후 다시 시도해주세요.` },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(retryAfterSec),
+          "X-RateLimit-Remaining": "0",
+        },
+      }
+    );
+  }
+
   // 1. 요청 바디 파싱 및 Zod 검증
   let parsed;
   try {
@@ -71,5 +94,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  return NextResponse.json({ success: true });
+  return NextResponse.json(
+    { success: true },
+    { headers: { "X-RateLimit-Remaining": String(remaining) } }
+  );
 }
