@@ -28,7 +28,7 @@ markmap:
 
 ### 서비스
 - Supabase (PostgreSQL DB)
-- Vercel AI SDK + Claude Sonnet 4.6
+- Vercel AI SDK + Gemini 2.5 Flash (Free Tier)
 - Resend (이메일 발송)
 - Zod (입력 검증)
 
@@ -109,9 +109,9 @@ markmap:
 6. IT 시스템/개발팀 보유 여부 (있음 / 없음 / 모르겠음)
 
 ## 🚀 개발 Phase
-### Phase 1 ✅ 완료
+### Phase 1 ✅ 완료 (2026-05-24)
 - Next.js 프로젝트 생성
-- 의존성 설치 (Supabase, AI SDK, Resend, Zod)
+- 의존성 설치 (Supabase, AI SDK, Resend, Zod, Vitest)
 - Shadcn.ui 컴포넌트 수동 생성
 - DHL 브랜드 색상 적용
 - 프로젝트 문서 구조 생성
@@ -119,34 +119,31 @@ markmap:
 - AI 추천 로직 / 이메일 로직 초안
 - GitHub 연결
 
-### Phase 2 — 입력 폼
-- 6개 질문 UI 구현
-- 유효성 검사 (Zod)
-- Supabase 저장 + 6자리 key 생성
-- **완료 조건**: "결과 보기" 클릭 → DB 저장 + key 반환
+### Phase 2 ✅ 완료 (2026-05-25)
+- Anthropic → Gemini 2.5 Flash (Free Tier) 전환
+- Supabase sessions 테이블 + key 생성 함수 마이그레이션 실행
+- 6개 질문 Intake Form UI 구현 (Zod 검증 + 로딩 상태)
+- `/api/recommend` API 구현 (Gemini AI → DB 저장 → key 반환)
+- **완료 조건 달성**: 폼 제출 → AI 추천 → 6자리 key 발급 확인
 
-### Phase 3 — AI 추천 엔진
-- `/api/recommend` API 구현
-- Claude generateObject 연동
-- 로딩 UI (스피너)
-- **완료 조건**: 5초 내 솔루션 + 한국어 근거 반환
+### Phase 3 ✅ 완료 (2026-05-25)
+- 결과 페이지(`/result/[key]`) 전면 구현
+- 추천 솔루션 카드 (AI 근거 + 입력 요약)
+- 4개 솔루션 비교표 (추천 솔루션 하이라이트)
+- 통관 용어 섹션 (6개 용어 카드)
+- 6자리 key 복사 버튼
+- **완료 조건 달성**: 모든 정보 표시 확인
 
-### Phase 4 — 결과 페이지
-- 추천 솔루션 카드
-- 4개 솔루션 비교 (추천 강조)
-- 통관 용어 섹션
-- 6자리 key 표시 + 복사
-- **완료 조건**: 모든 정보 표시 + 이메일 버튼
-
-### Phase 5 — Key 재조회
-- 홈에 "이전 결과 조회" 입력창
-- `/result/[key]` Supabase 조회
-- **완료 조건**: key로 이전 결과 동일 복원
-
-### Phase 6 — 이메일 발송
+### Phase 4 — 이메일 발송 (pending)
 - Resend API 연동
 - 이메일 템플릿 (솔루션 + key + 링크)
+- 이메일 발송 버튼 활성화
 - **완료 조건**: 이메일 수신 + 토스트 피드백
+
+### Phase 5 — Rate Limiting + 보안 강화 (pending)
+- Key 열거 공격 방지 Rate Limiting
+- `/result/[key]` 존재하지 않는 key 처리
+- **완료 조건**: 1분 내 10회 이상 시도 시 차단
 
 ## 🤖 AI 핸즈온 엔지니어링
 ### Claude (개발자)
@@ -175,7 +172,7 @@ markmap:
 ## ⚙️ 환경 변수
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `ANTHROPIC_API_KEY`
+- `GOOGLE_GENERATIVE_AI_API_KEY`
 - `RESEND_API_KEY`
 - `NEXT_PUBLIC_BASE_URL`
 

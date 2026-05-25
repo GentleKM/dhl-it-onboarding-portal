@@ -29,6 +29,31 @@
 - 핫픽스(긴급 수정): `[hotfix] 긴급 수정 요약` / hotfix/이슈명 브랜치 → main + develop 양쪽 반영
 - main 직접 푸시 금지
 
+## Phase 커밋 절차 (역할별)
+
+Phase 하나가 완료된 후 커밋까지의 단계별 담당자:
+
+| 순서 | 담당 | 작업 | 비고 |
+|------|------|------|------|
+| 1 | **Claude** | Phase 코드 구현 완료 | |
+| 2 | **Claude** | `npm test` 실행 → 전체 통과 확인 | 실패 시 수정 후 재실행 |
+| 3 | **사용자** | `/ultrareview` 실행하여 Codex 검토 트리거 | 비용 발생, 수동 실행 |
+| 4 | **Codex** | PRD·보안·테스트·컨벤션 체크리스트 수행 | AGENTS.md 체크리스트 기준 |
+| 5 | **Claude** | Codex 피드백 반영 후 `npm test` 재확인 | 수정이 없으면 생략 |
+| 6 | **Claude** | `[Phase N] 영문 요약` 형식으로 커밋 | |
+| 7 | **Claude** | `git push origin main` | |
+
+### npm test vs Codex 검토 — 역할 차이
+
+| 항목 | `npm test` | Codex 검토 |
+|------|------------|------------|
+| **담당** | Claude 자동 실행 | 사용자가 `/ultrareview`로 트리거 |
+| **검사 내용** | 코드 버그, 엣지케이스 (기술적 정확성) | PRD 준수, 보안, UX, 코딩 컨벤션 |
+| **판단 방식** | 객관적 (pass/fail) | 주관적 품질 판단 포함 |
+| **비용** | 무료 | `/ultrareview` 토큰 비용 발생 |
+
+→ 둘 다 필요: `npm test`는 버그를 잡고, Codex 검토는 품질·적합성을 확인
+
 ### [CI 파이프라인 구축 후] CI 파이프라인 구축 후 활성화, 그 전까지는 비활성화
 - develop → main 반영 조건에 자동 테스트(CI) 전체 통과 추가
 - 빌드·린트·유닛 테스트 자동화 설정 (GitHub Actions 또는 Vercel CI 활용)
