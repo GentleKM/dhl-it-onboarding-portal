@@ -18,7 +18,8 @@ Codex 역할: 기획자 & 검토자. 코드 작성은 Claude가 담당.
 ## 규칙 목차
 
 - [AI 에이전트 정책](rules/ai-agent-policy.md) — 역할 분담, 작업 순서, 보고 방식
-- [Git 커밋 규칙](rules/git.md) — 커밋 단위, 브랜치 전략, Codex 검토 시점
+- [테스팅 및 Phase 검증 절차](rules/testing.md) — 단위 테스트, Codex 검토, Phase 커밋 절차
+- [Git 커밋 규칙](rules/git.md) — 커밋 메시지 형식, 브랜치 전략, 배포 전/후 규칙
 - [보안](rules/security.md) — 환경변수, 입력 검증, Key 보안
 - [코딩 컨벤션](rules/coding-convention.md) — 네이밍, 타입, 파일 구조
 
@@ -29,3 +30,5 @@ Codex 역할: 기획자 & 검토자. 코드 작성은 Claude가 담당.
 2. 보안 취약점이 없는가? (SQL injection, XSS, key 열거 공격 등)
 3. 핵심 로직 테스트가 작성되어 있고 `npm test` 전체 통과하는가?
 4. 코딩 컨벤션([rules/coding-convention.md](rules/coding-convention.md))을 준수하는가?
+
+> 전체 검증·커밋 절차 → [rules/testing.md](rules/testing.md) 참조

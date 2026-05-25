@@ -1,6 +1,9 @@
 # Git 커밋 규칙
 
 ## 공통 규칙 (항상 적용)
+
+> 테스트·Codex 검토·커밋 단계별 절차 → [rules/testing.md](testing.md) 참조
+
 - 커밋 전 `npm test` 실행 — 전체 통과 후 커밋 (실패 시 커밋 불가)
 - 커밋 전 관련 docs/ 문서와 status.json을 최신화
 - main 브랜치 강제 푸시(git push -f) 절대 금지
@@ -28,31 +31,6 @@
 - develop → main 반영: **Codex(리뷰어) 최종 확인 후** Pull Request를 통해 병합
 - 핫픽스(긴급 수정): `[hotfix] 긴급 수정 요약` / hotfix/이슈명 브랜치 → main + develop 양쪽 반영
 - main 직접 푸시 금지
-
-## Phase 커밋 절차 (역할별)
-
-Phase 하나가 완료된 후 커밋까지의 단계별 담당자:
-
-| 순서 | 담당 | 작업 | 비고 |
-|------|------|------|------|
-| 1 | **Claude** | Phase 코드 구현 완료 | |
-| 2 | **Claude** | `npm test` 실행 → 전체 통과 확인 | 실패 시 수정 후 재실행 |
-| 3 | **Claude** | `/codex:review` 호출 → AGENTS.md 체크리스트 기준으로 코드 리뷰 실행 | `npm test` 통과 직후 자동 호출 |
-| 4 | **Claude** | `/codex:result` 호출 → 리뷰 결과 수신 후 사용자에게 보고 및 승인 요청, 승인 시 피드백 반영 | 사용자 승인 없이 코드 수정 불가 |
-| 5 | **Claude** | 피드백 반영 후 `npm test` 재확인 | 수정이 없으면 생략 |
-| 6 | **Claude** | `[Phase N] 영문 요약` 형식으로 커밋 | |
-| 7 | **Claude** | `git push origin main` | |
-
-### npm test vs Codex 검토 — 역할 차이
-
-| 항목 | `npm test` | Codex 검토 |
-|------|------------|------------|
-| **담당** | Claude 자동 실행 | Claude가 `/codex:review` 호출 (npm test 통과 직후) |
-| **검사 내용** | 코드 버그, 엣지케이스 (기술적 정확성) | PRD 준수, 보안, UX, 코딩 컨벤션 |
-| **판단 방식** | 객관적 (pass/fail) | 주관적 품질 판단 포함 |
-| **결과 반영** | 자동 (pass/fail 기준) | `/codex:result`로 수신 → 사용자 승인 후 반영 |
-
-→ 둘 다 필요: `npm test`는 버그를 잡고, Codex 검토는 품질·적합성을 확인
 
 ### [CI 파이프라인 구축 후] CI 파이프라인 구축 후 활성화, 그 전까지는 비활성화
 - develop → main 반영 조건에 자동 테스트(CI) 전체 통과 추가

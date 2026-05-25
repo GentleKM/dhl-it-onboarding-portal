@@ -13,7 +13,7 @@ Claude Code 진입점. 상세 내용은 아래 문서 참조.
 
 - [코딩 컨벤션](rules/coding-convention.md)
 - [보안](rules/security.md)
-- [테스팅](rules/testing.md)
+- [테스팅 및 Phase 검증 절차](rules/testing.md) — 단위 테스트, Codex 검토, 커밋 전 체크리스트
 - [AI 에이전트 정책](rules/ai-agent-policy.md)
 - [Git 커밋 규칙](rules/git.md)
 
