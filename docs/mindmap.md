@@ -52,6 +52,7 @@ markmap:
 ### rules/
 - `coding-convention.md` — camelCase, 한글 주석
 - `security.md` — 환경변수, XSS, Rate Limiting
+- `git.md` — git 규칙
 - `testing.md` — TDD 원칙
 - `ai-agent-policy.md` — Claude/Codex 역할 분담
 

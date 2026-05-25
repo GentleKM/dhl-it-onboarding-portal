@@ -8,8 +8,11 @@ export async function sendResultEmail(to: string, session: SessionResult) {
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
 
+  // RESEND_FROM_EMAIL 미설정 시 Resend 테스트 도메인 사용
+  const from = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
+
   await resend.emails.send({
-    from: "DHL Starter <no-reply@dhl-starter.com>",
+    from,
     to,
     subject: `[DHL Starter] 추천 솔루션: ${recommendedSolution}`,
     html: `

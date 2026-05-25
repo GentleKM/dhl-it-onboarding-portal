@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { CopyCodeButton } from "@/components/result/copy-code-button";
+import { EmailButton } from "@/components/result/email-button";
 import { solutions, solutionMap, COMPARISON_ROWS } from "@/content/solutions";
 import { customsTerms } from "@/content/customs-guide";
 import type { DhlSolution } from "@/types";
@@ -169,14 +169,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
               </div>
               <div className="flex gap-2 flex-wrap justify-center">
                 <CopyCodeButton code={key} />
-                {/* 이메일 발송 버튼 — Phase 4에서 실제 동작 */}
-                <Button
-                  disabled
-                  className="opacity-50 cursor-not-allowed"
-                  title="Phase 4에서 구현 예정"
-                >
-                  📧 이메일로 받기
-                </Button>
+                <EmailButton sessionKey={key} />
               </div>
             </div>
           </CardContent>
