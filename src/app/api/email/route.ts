@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     if (err instanceof z.ZodError) {
       return NextResponse.json(
-        { error: err.errors[0]?.message ?? "입력값이 올바르지 않습니다" },
+        { error: err.issues[0]?.message ?? "입력값이 올바르지 않습니다" },
         { status: 400 }
       );
     }
