@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -17,12 +18,12 @@ import {
 
 // 클라이언트 사이드 폼 검증 스키마
 const intakeSchema = z.object({
-  businessType: z.string().min(1, "업종을 선택해주세요"),
-  mainProduct: z.string().min(1, "주요 발송물을 입력해주세요"),
-  monthlyShipments: z.coerce.number().min(1, "발송 건수를 입력해주세요"),
-  originCountry: z.string().length(2, "출발 국가를 선택해주세요"),
-  destinationCountry: z.string().length(2, "도착 국가를 선택해주세요"),
-  hasItSystem: z.enum(["true", "false", "null"], { message: "보유 여부를 선택해주세요" }),
+  businessType: z.string().min(1, "고객님 비즈니스의 업종을 알려주세요."),
+  mainProduct: z.string().min(1, "주요 발송물은 무엇인가요?"),
+  monthlyShipments: z.coerce.number().min(1, "월 평균 발송 건수가 어떻게 되나요?"),
+  originCountry: z.string().length(2, "주로 어느 국가에서 발송하시나요?"),
+  destinationCountry: z.string().length(2, "주로 어느 국가로 발송하시나요?"),
+  hasItSystem: z.enum(["true", "false", "null"], { message: "보유 여부를 선택해주세요." }),
 });
 
 type IntakeFormData = z.infer<typeof intakeSchema>;
@@ -58,9 +59,9 @@ const COUNTRIES = [
 
 // IT 시스템 보유 여부 옵션
 const IT_SYSTEM_OPTIONS = [
-  { value: "true", label: "있음", description: "자체 ERP, WMS 또는 개발팀 보유" },
-  { value: "false", label: "없음", description: "별도 시스템 없음" },
-  { value: "null", label: "모르겠음", description: "잘 모르겠음" },
+  { value: "true", label: "있음", description: "자체 개발팀 또는 외주 개발 업체를 통해 자체 시스템 개발 가능" },
+  { value: "false", label: "없음", description: "자체 시스템 개발은 어려움" },
+  { value: "null", label: "모르겠음", description: "기타: 개발 인프라 구축 예정 or 추가 확인 필요" },
 ];
 
 export default function Home() {
@@ -159,16 +160,16 @@ export default function Home() {
       <header style={{ backgroundColor: "#D40511" }} className="py-6 px-4 shadow-md">
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center gap-3">
-            {/* DHL 로고 텍스트 */}
-            <div
-              className="text-3xl font-black tracking-wider px-3 py-1 rounded"
-              style={{ backgroundColor: "#FFCC00", color: "#D40511" }}
-            >
-              DHL
-            </div>
+            <Image
+              src="/dhl-express-cambodia-ltd-1200px-logo.jpg"
+              alt="DHL"
+              width={120}
+              height={69}
+              className="rounded"
+            />
             <div>
-              <h1 className="text-white text-xl font-bold">IT 솔루션 추천 서비스</h1>
-              <p className="text-red-200 text-sm">귀사에 최적화된 DHL 솔루션을 찾아드립니다</p>
+              <h1 className="text-white text-xl font-bold">DHL Onboarding Poral</h1>
+              <p className="text-red-200 text-sm">고객님의 상황에 맞는 최적의 솔루션을 추천해 드립니다.</p>
             </div>
           </div>
         </div>
@@ -178,7 +179,7 @@ export default function Home() {
         {/* 소개 문구 */}
         <div className="text-center space-y-2">
           <p className="text-gray-600 text-base">
-            아래 6가지 질문에 답하시면 귀사에 맞는 DHL 솔루션을 AI가 즉시 추천해 드립니다.
+            아래 질문에 답변해 주시면 고객님의 상황에 맞는 최적의 솔루션을 추천해 드립니다.
           </p>
         </div>
 
@@ -186,8 +187,8 @@ export default function Home() {
         <form onSubmit={handleSubmit}>
           <Card className="shadow-sm">
             <CardHeader className="pb-4">
-              <CardTitle className="text-lg text-gray-800">기업 정보 입력</CardTitle>
-              <CardDescription>모든 항목을 입력해주세요</CardDescription>
+              <CardTitle className="text-lg text-gray-800">기업 정보</CardTitle>
+              <CardDescription>고객님의 기업 정보를 알려주세요.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               {/* Q1. 업종 */}
@@ -315,7 +316,7 @@ export default function Home() {
               {/* Q6. IT 시스템 보유 여부 */}
               <div className="space-y-3">
                 <Label className="font-semibold text-gray-700">
-                  6. 자체 IT 시스템 또는 개발팀 보유 여부 <span className="text-red-500">*</span>
+                  6. 자체적으로 IT 시스템 개발이 가능하신가요? <span className="text-red-500">*</span>
                 </Label>
                 <div className="grid grid-cols-3 gap-3">
                   {IT_SYSTEM_OPTIONS.map((opt) => {
@@ -389,8 +390,8 @@ export default function Home() {
         {/* 재조회 섹션 */}
         <Card className="shadow-sm border-dashed">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base text-gray-700">이전 추천 결과 재조회</CardTitle>
-            <CardDescription>이전에 받은 6자리 코드로 결과를 다시 확인할 수 있습니다</CardDescription>
+            <CardTitle className="text-base text-gray-700">이전 결과 다시 조회하기</CardTitle>
+            <CardDescription>결과 조회 시 전달 받은 6자리 코드를 입력해 주세요.</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLookup} className="flex gap-2">
@@ -418,7 +419,7 @@ export default function Home() {
 
         {/* 푸터 */}
         <footer className="text-center text-xs text-gray-400 pb-8">
-          © 2026 DHL Express Korea · IT 솔루션 추천 서비스
+          © 2026 DHL Express Korea · DHL Onboarding Portal v1.0
         </footer>
       </main>
     </div>
