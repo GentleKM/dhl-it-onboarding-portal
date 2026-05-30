@@ -167,29 +167,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
           </CardContent>
         </Card>
 
-        {/* ② 6자리 코드 + 이메일 버튼 */}
-        <Card className="shadow-sm">
-          <CardContent className="pt-6">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-center sm:text-left">
-                <p className="text-sm text-gray-500 mb-1">나중에 이 결과를 다시 보려면</p>
-                <p
-                  className="text-4xl font-mono font-bold tracking-widest"
-                  style={{ color: "#D40511" }}
-                >
-                  {key}
-                </p>
-                <p className="text-xs text-gray-400 mt-1">홈 화면에서 이 6자리 코드로 재조회 가능</p>
-              </div>
-              <div className="flex gap-2 flex-wrap justify-center">
-                <CopyCodeButton code={key} />
-                <EmailButton sessionKey={key} />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* ③ 3개 솔루션 비교표 */}
+        {/* ② 3개 솔루션 비교표 */}
         <Card className="shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-base text-gray-800">3개 솔루션 비교</CardTitle>
@@ -292,6 +270,28 @@ export default async function ResultPage({ params }: ResultPageProps) {
                   )}
                 </div>
               ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* ⑤ 6자리 코드 + 이메일 버튼 */}
+        <Card className="shadow-sm">
+          <CardContent className="pt-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="text-center sm:text-left">
+                <p className="text-sm text-gray-500 mb-1">나중에 이 결과를 다시 보려면</p>
+                <p
+                  className="text-4xl font-mono font-bold tracking-widest"
+                  style={{ color: "#D40511" }}
+                >
+                  {key}
+                </p>
+                <p className="text-xs text-gray-400 mt-1">홈 화면에서 이 6자리 코드로 재조회 가능</p>
+              </div>
+              <div className="flex gap-2 flex-wrap justify-center">
+                <CopyCodeButton code={key} />
+                <EmailButton sessionKey={key} />
+              </div>
             </div>
           </CardContent>
         </Card>
