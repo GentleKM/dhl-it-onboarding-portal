@@ -5,7 +5,8 @@ import { CopyCodeButton } from "@/components/result/copy-code-button";
 import { EmailButton } from "@/components/result/email-button";
 import { solutions, solutionMap, COMPARISON_ROWS } from "@/content/solutions";
 import { customsTerms } from "@/content/customs-guide";
-import type { DhlSolution } from "@/types";
+import { getRouteWarnings } from "@/lib/ai/route-warnings";
+import type { DhlSolution, RouteWarning } from "@/types";
 
 interface ResultPageProps {
   params: Promise<{ key: string }>;
@@ -30,12 +31,6 @@ const SOLUTION_COLORS: Record<DhlSolution, { bg: string; border: string; text: s
     border: "border-purple-400",
     text: "text-purple-700",
     badge: "bg-purple-600",
-  },
-  DCIS: {
-    bg: "bg-orange-50",
-    border: "border-orange-400",
-    text: "text-orange-700",
-    badge: "bg-orange-600",
   },
 };
 
@@ -70,6 +65,18 @@ export default async function ResultPage({ params }: ResultPageProps) {
   // 입력 정보 요약용
   const originName = COUNTRY_NAMES[session.origin_country] ?? session.origin_country;
   const destName = COUNTRY_NAMES[session.destination_country] ?? session.destination_country;
+
+  // 루트별 통관 주의사항 (AI 생성, 실패 시 빈 배열로 graceful degradation)
+  let routeWarnings: RouteWarning[] = [];
+  try {
+    routeWarnings = await getRouteWarnings(session.origin_country, session.destination_country);
+  } catch (err) {
+    console.error("[route-warnings] AI 호출 실패", {
+      origin: session.origin_country,
+      destination: session.destination_country,
+      error: err,
+    });
+  }
   const itSystemLabel =
     session.has_it_system === true ? "있음" :
     session.has_it_system === false ? "없음" : "모르겠음";
@@ -175,10 +182,10 @@ export default async function ResultPage({ params }: ResultPageProps) {
           </CardContent>
         </Card>
 
-        {/* ③ 4개 솔루션 비교표 */}
+        {/* ③ 3개 솔루션 비교표 */}
         <Card className="shadow-sm">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base text-gray-800">4개 솔루션 비교</CardTitle>
+            <CardTitle className="text-base text-gray-800">3개 솔루션 비교</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
@@ -227,7 +234,36 @@ export default async function ResultPage({ params }: ResultPageProps) {
           </CardContent>
         </Card>
 
-        {/* ④ 통관 가이드 */}
+        {/* ④ 루트별 통관 주의사항 (AI 생성) */}
+        {routeWarnings.length > 0 && (
+          <Card className="shadow-sm border-amber-200">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base text-gray-800">
+                ⚠️ {originName}에서 {destName}로 발송 시 주의사항
+              </CardTitle>
+              <p className="text-sm text-gray-500">이 구간에서 자주 발생하는 통관·비용 이슈</p>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {routeWarnings.map((warning, i) => (
+                  <div
+                    key={i}
+                    className="rounded-lg border border-amber-200 bg-amber-50 p-4"
+                  >
+                    <p className="font-semibold text-amber-800 text-sm mb-1">
+                      ⚠️ {warning.title}
+                    </p>
+                    <p className="text-xs text-amber-700 leading-relaxed">
+                      {warning.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* ⑤ 통관 가이드 */}
         <Card className="shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-base text-gray-800">📦 통관 기초 가이드</CardTitle>
@@ -251,7 +287,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
           </CardContent>
         </Card>
 
-        {/* ⑤ 홈으로 */}
+        {/* ⑥ 홈으로 */}
         <div className="flex justify-center pb-8">
           <a
             href="/"

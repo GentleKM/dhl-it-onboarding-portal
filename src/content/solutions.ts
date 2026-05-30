@@ -1,4 +1,4 @@
-// DHL 4개 솔루션 정적 콘텐츠 — 비교표 및 결과 페이지에서 사용
+// DHL 3개 솔루션 정적 콘텐츠 — 비교표 및 결과 페이지에서 사용
 // 내용 수정이 필요하면 이 파일을 직접 편집하세요.
 
 import type { DhlSolution } from "@/types";
@@ -29,7 +29,7 @@ export const solutions: SolutionInfo[] = [
     systemIntegration: "불필요",
     shipmentScale: "소~대량",
     industries: "모든 업종",
-    color: "blue",
+    color: "red",
   },
   {
     id: "DEC",
@@ -44,7 +44,7 @@ export const solutions: SolutionInfo[] = [
     systemIntegration: "커머스 플랫폼 연동",
     shipmentScale: "중~대량",
     industries: "이커머스/온라인 쇼핑몰",
-    color: "green",
+    color: "yellow",
   },
   {
     id: "MyDHL API",
@@ -59,22 +59,7 @@ export const solutions: SolutionInfo[] = [
     systemIntegration: "ERP/WMS API 연동",
     shipmentScale: "대량",
     industries: "제조/물류/IT 기업",
-    color: "purple",
-  },
-  {
-    id: "DCIS",
-    name: "DCIS",
-    tagline: "반도체·기술 산업 전문 발송 솔루션",
-    features: [
-      "복잡한 인보이스 처리 및 대량 발송 지원",
-      "반도체·전자·IT 산업 특화 기능",
-      "정밀 부품 배송 추적 및 컴플라이언스 관리",
-    ],
-    bestFor: "반도체·전자·기술 산업의 대량 발송 기업",
-    systemIntegration: "시스템 연동 지원",
-    shipmentScale: "대량",
-    industries: "반도체/전자/IT",
-    color: "orange",
+    color: "green",
   },
 ];
 

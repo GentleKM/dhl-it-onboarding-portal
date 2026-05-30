@@ -34,13 +34,13 @@ describe("getRecommendation", () => {
 
     expect(result).toHaveProperty("solution");
     expect(result).toHaveProperty("reason");
-    expect(["MyDHL+", "DEC", "MyDHL API", "DCIS"]).toContain(result.solution);
+    expect(["MyDHL+", "DEC", "MyDHL API"]).toContain(result.solution);
     expect(result.reason.length).toBeGreaterThan(0);
   });
 
   it("반환된 solution은 4개 중 하나이다", async () => {
     const result = await getRecommendation(baseInput);
-    const validSolutions = ["MyDHL+", "DEC", "MyDHL API", "DCIS"];
+    const validSolutions = ["MyDHL+", "DEC", "MyDHL API"];
     expect(validSolutions).toContain(result.solution);
   });
 });

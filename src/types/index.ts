@@ -1,4 +1,9 @@
-export type DhlSolution = "MyDHL+" | "DEC" | "MyDHL API" | "DCIS";
+export type DhlSolution = "MyDHL+" | "DEC" | "MyDHL API";
+
+export interface RouteWarning {
+  title: string;
+  description: string;
+}
 
 export interface SessionInput {
   businessType: string;

@@ -9,11 +9,10 @@ markmap:
 - DHL 신규 고객이 최적 솔루션을 쉽게 찾도록 AI가 맞춤 추천
 - 입력 → AI 분석 → 솔루션 추천 + 통관 안내
 
-## 📦 추천 솔루션 (4가지)
+## 📦 추천 솔루션 (3가지)
 - **MyDHL+**: 빠른 시작, 시스템 연동 불필요
 - **DEC**: 이커머스 대량 발송, Shopify 연동
 - **MyDHL API**: 자체 IT 인프라 기업, ERP/WMS 연동
-- **DCIS**: 반도체/기술 산업, 복잡한 인보이스
 
 ## 🖥️ 기술 스택
 ### Frontend / Backend
@@ -70,7 +69,8 @@ markmap:
 ### src/lib/
 - `supabase/client.ts` — 브라우저 클라이언트
 - `supabase/server.ts` — 서버 클라이언트
-- `ai/recommend.ts` — Claude 추천 로직
+- `ai/recommend.ts` — 솔루션 추천 AI 로직
+- `ai/route-warnings.ts` — 루트별 통관 주의사항 AI 로직
 - `email/send.ts` — Resend 이메일 템플릿
 
 ### src/content/
@@ -166,9 +166,14 @@ markmap:
 - AI Prompt Injection 방지: 사용자 입력 → 구조화된 JSON 전달
 
 ## 🌍 통관 정보 관리
+### 정적 통관 용어
 - `src/content/customs-guide.ts` 파일 직접 편집
 - 현재 6개 항목: HS 코드, 인코텀즈, 상업송장, 원산지증명서, 관세, 부가가치세
-- 추가 방법: `customsTerms` 배열에 객체 추가 후 저장
+
+### AI 루트별 주의사항
+- `src/lib/ai/route-warnings.ts` — Gemini 2.5 Flash 사용
+- 결과 페이지에서 출발국가→도착국가 구간의 critical 통관 주의사항 2가지 생성
+- 실패 시 섹션 미표시 (graceful degradation)
 
 ## ⚙️ 환경 변수
 - `NEXT_PUBLIC_SUPABASE_URL`
@@ -181,4 +186,5 @@ markmap:
 - **generateObject 사용**: Zod 타입 강제로 파싱 오류 방지
 - **로그인 없음 + 6자리 key**: 진입 장벽 최소화
 - **통관 정보 정적 관리**: 외부 API 불필요, 용어 설명만 제공
+- **루트별 통관 주의사항 AI 생성**: 구간별 맞춤 정보, 실패 시 graceful degradation
 - **Tailwind v4**: Next.js 16 기본 설정, Shadcn 수동 생성으로 대응
