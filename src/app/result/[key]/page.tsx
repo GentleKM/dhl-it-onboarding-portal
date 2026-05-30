@@ -15,22 +15,22 @@ interface ResultPageProps {
 // 솔루션별 강조 색상 클래스
 const SOLUTION_COLORS: Record<DhlSolution, { bg: string; border: string; text: string; badge: string }> = {
   "MyDHL+": {
-    bg: "bg-blue-50",
-    border: "border-blue-400",
-    text: "text-blue-700",
-    badge: "bg-blue-600",
+    bg: "bg-red-50",
+    border: "border-red-400",
+    text: "text-red-700",
+    badge: "bg-red-600",
   },
   DEC: {
+    bg: "bg-yellow-50",
+    border: "border-yellow-400",
+    text: "text-yellow-700",
+    badge: "bg-yellow-600",
+  },
+  "MyDHL API": {
     bg: "bg-green-50",
     border: "border-green-400",
     text: "text-green-700",
     badge: "bg-green-600",
-  },
-  "MyDHL API": {
-    bg: "bg-purple-50",
-    border: "border-purple-400",
-    text: "text-purple-700",
-    badge: "bg-purple-600",
   },
 };
 
@@ -294,7 +294,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-white font-semibold transition-opacity hover:opacity-90"
             style={{ backgroundColor: "#D40511" }}
           >
-            ← 처음으로 돌아가기
+            처음으로 돌아가기
           </a>
         </div>
       </main>
