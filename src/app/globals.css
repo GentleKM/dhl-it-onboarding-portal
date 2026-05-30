@@ -1,20 +1,29 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f8fa;
+  --foreground: #191f28;
 
   /* DHL 브랜드 색상 */
   --dhl-yellow: #FFCC00;
   --dhl-red: #D40511;
   --dhl-gray: #53565A;
+
+  /* Toss-inspired 팔레트 */
+  --text-primary: #191f28;
+  --text-secondary: #8b95a1;
+  --text-tertiary: #b0b8c1;
+  --surface: #ffffff;
+  --surface-alt: #f7f8fa;
+  --border: #e5e8eb;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
 
   /* DHL 색상 테마 */
   --color-dhl-yellow: var(--dhl-yellow);
@@ -25,18 +34,21 @@
   --color-primary: var(--dhl-red);
   --color-primary-foreground: #ffffff;
   --color-secondary: var(--dhl-yellow);
-  --color-secondary-foreground: #171717;
+  --color-secondary-foreground: #191f28;
   --color-destructive: #ef4444;
-  --color-border: #e5e7eb;
-  --color-input: #e5e7eb;
+  --color-border: #e5e8eb;
+  --color-input: #e5e8eb;
   --color-ring: var(--dhl-red);
-  --color-muted: #f3f4f6;
-  --color-muted-foreground: #6b7280;
-  --radius: 0.5rem;
+  --color-muted: #f7f8fa;
+  --color-muted-foreground: #8b95a1;
+  --radius: 0.75rem;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
 }
