@@ -227,7 +227,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
                 ⚠️ {originName} → {destName} 발송 시 주의사항
               </CardTitle>
               <p className="text-sm text-gray-500">
-                아래 내용은 AI가 생성한 정보입니다. 구체적인 통관·비용 사항은 DHL 담당자에게 확인하세요.
+                아래 내용은 AI가 생성한 정보입니다. 다시 한 번 확인 후, 상세 내용은 담당 영업직원에게 문의 부탁드립니다.
               </p>
             </CardHeader>
             <CardContent>
@@ -253,8 +253,8 @@ export default async function ResultPage({ params }: ResultPageProps) {
         {/* ⑤ 통관 가이드 */}
         <Card className="shadow-sm">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base text-gray-800">📦 통관 기초 가이드</CardTitle>
-            <p className="text-sm text-gray-500">DHL 발송 시 알아두면 유용한 통관 용어</p>
+            <CardTitle className="text-base text-gray-800">📦 추가 정보</CardTitle>
+            <p className="text-sm text-gray-500">해외 발송 및 DHL 이용 참고사항</p>
           </CardHeader>
           <CardContent>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -279,14 +279,14 @@ export default async function ResultPage({ params }: ResultPageProps) {
           <CardContent className="pt-6">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="text-center sm:text-left">
-                <p className="text-sm text-gray-500 mb-1">나중에 이 결과를 다시 보려면</p>
+                <p className="text-sm text-gray-500 mb-1">이 결과를 다시 보려면 아래 숫자를 입력해 주세요.</p>
                 <p
                   className="text-4xl font-mono font-bold tracking-widest"
                   style={{ color: "#D40511" }}
                 >
                   {key}
                 </p>
-                <p className="text-xs text-gray-400 mt-1">홈 화면에서 이 6자리 코드로 재조회 가능</p>
+                <p className="text-xs text-gray-400 mt-1">이메일로 결과를 받아보실 수 있습니다.</p>
               </div>
               <div className="flex gap-2 flex-wrap justify-center">
                 <CopyCodeButton code={key} />
