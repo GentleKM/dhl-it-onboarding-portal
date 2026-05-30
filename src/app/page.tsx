@@ -59,9 +59,9 @@ const COUNTRIES = [
 
 // IT 시스템 보유 여부 옵션
 const IT_SYSTEM_OPTIONS = [
-  { value: "true", label: "있음", description: "자체 개발팀 또는 외주 개발 업체를 통해 자체 시스템 개발 가능" },
-  { value: "false", label: "없음", description: "자체 시스템 개발은 어려움" },
-  { value: "null", label: "모르겠음", description: "기타: 개발 인프라 구축 예정 or 추가 확인 필요" },
+  { value: "true", label: "가능", description: "자체 개발팀 또는 외주 개발 업체를 통해 자체 시스템 개발 가능" },
+  { value: "false", label: "불가능", description: "자체 시스템 개발은 어려움" },
+  { value: "null", label: "기타", description: "개발 인프라 구축 예정 or 추가 확인 필요" },
 ];
 
 export default function Home() {
@@ -179,7 +179,7 @@ export default function Home() {
         {/* 소개 문구 */}
         <div className="text-center space-y-2">
           <p className="text-gray-600 text-base">
-            아래 질문에 답변해 주시면 고객님의 상황에 맞는 최적의 솔루션을 추천해 드립니다.
+            아래 정보를 알려 주시면 고객님의 상황에 맞는 최적의 솔루션을 추천해 드립니다.
           </p>
         </div>
 
@@ -380,7 +380,7 @@ export default function Home() {
                     AI 추천 분석 중...
                   </span>
                 ) : (
-                  "솔루션 추천 받기 →"
+                  "솔루션 추천 받기"
                 )}
               </Button>
             </CardContent>
