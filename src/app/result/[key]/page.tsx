@@ -1,4 +1,6 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CopyCodeButton } from "@/components/result/copy-code-button";
@@ -62,6 +64,11 @@ export default async function ResultPage({ params }: ResultPageProps) {
   const colors = SOLUTION_COLORS[solution];
   const solutionInfo = solutionMap.get(solution);
 
+  // DB 값이 예상 외인 경우 (제거된 솔루션 등) → 404
+  if (!colors || !solutionInfo) {
+    notFound();
+  }
+
   // 입력 정보 요약용
   const originName = COUNTRY_NAMES[session.origin_country] ?? session.origin_country;
   const destName = COUNTRY_NAMES[session.destination_country] ?? session.destination_country;
@@ -77,6 +84,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
       error: err,
     });
   }
+
   const itSystemLabel =
     session.has_it_system === true ? "있음" :
     session.has_it_system === false ? "없음" : "모르겠음";
@@ -86,12 +94,13 @@ export default async function ResultPage({ params }: ResultPageProps) {
       {/* DHL 헤더 */}
       <header style={{ backgroundColor: "#D40511" }} className="py-6 px-4 shadow-md">
         <div className="max-w-3xl mx-auto flex items-center gap-3">
-          <div
-            className="text-3xl font-black tracking-wider px-3 py-1 rounded"
-            style={{ backgroundColor: "#FFCC00", color: "#D40511" }}
-          >
-            DHL
-          </div>
+          <Image
+            src="/dhl-express-cambodia-ltd-1200px-logo.jpg"
+            alt="DHL"
+            width={120}
+            height={69}
+            className="rounded"
+          />
           <div>
             <h1 className="text-white text-xl font-bold">AI 솔루션 추천 결과</h1>
             <p className="text-red-200 text-sm">귀사에 최적화된 DHL 솔루션을 확인하세요</p>
@@ -111,7 +120,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
               </span>
             </div>
             <CardTitle className={`text-2xl font-bold ${colors.text}`}>
-              {solutionInfo?.tagline}
+              {solutionInfo.tagline}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -142,21 +151,19 @@ export default async function ResultPage({ params }: ResultPageProps) {
             </div>
 
             {/* 솔루션 주요 특징 */}
-            {solutionInfo && (
-              <div>
-                <p className="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
-                  주요 특징
-                </p>
-                <ul className="space-y-1">
-                  {solutionInfo.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                      <span className={`mt-0.5 font-bold ${colors.text}`}>✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            <div>
+              <p className="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
+                주요 특징
+              </p>
+              <ul className="space-y-1">
+                {solutionInfo.features.map((feature, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                    <span className={`mt-0.5 font-bold ${colors.text}`}>✓</span>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </CardContent>
         </Card>
 
@@ -239,9 +246,11 @@ export default async function ResultPage({ params }: ResultPageProps) {
           <Card className="shadow-sm border-amber-200">
             <CardHeader className="pb-3">
               <CardTitle className="text-base text-gray-800">
-                ⚠️ {originName}에서 {destName}로 발송 시 주의사항
+                ⚠️ {originName} → {destName} 발송 시 주의사항
               </CardTitle>
-              <p className="text-sm text-gray-500">이 구간에서 자주 발생하는 통관·비용 이슈</p>
+              <p className="text-sm text-gray-500">
+                아래 내용은 AI가 생성한 정보입니다. 구체적인 통관·비용 사항은 DHL 담당자에게 확인하세요.
+              </p>
             </CardHeader>
             <CardContent>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -289,13 +298,13 @@ export default async function ResultPage({ params }: ResultPageProps) {
 
         {/* ⑥ 홈으로 */}
         <div className="flex justify-center pb-8">
-          <a
+          <Link
             href="/"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-white font-semibold transition-opacity hover:opacity-90"
             style={{ backgroundColor: "#D40511" }}
           >
             처음으로 돌아가기
-          </a>
+          </Link>
         </div>
       </main>
     </div>
